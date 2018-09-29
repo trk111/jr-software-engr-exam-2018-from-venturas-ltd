@@ -31,8 +31,8 @@ class Welcome extends CI_Controller {
 
 		$crud->set_crud_url_path(site_url('welcome/add_developer'));
 
-		//$crud->set_relation_n_n('Language', 'data', 'languages', 'developer', 'language', 'code');
-		$crud->set_relation_n_n('Programing Language', 'data_pl', 'programming_languages', 'developer', 'programming_language', 'name');
+		$crud->set_relation_n_n('Language', 'data', 'languages', 'developer', 'language', 'code');
+		$crud->set_relation_n_n('ProgramingLanguage', 'data_pl', 'programming_languages', 'developer', 'programming_language', 'name');
 
 		$output = $crud->render();
 
@@ -87,10 +87,27 @@ class Welcome extends CI_Controller {
 
 		$result = $this->welcome_model->search_result($prog_lang, $lang);
 
-		if ($result != '') {
-			echo "paise";
+		if ($result != '') {?>
+	<table class="table table-striped">
+	    <thead>
+	      <tr>
+	        <th>Email</th>
+	        <th>Programming Languages</th>
+	        <th>Language</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+<?php foreach ($result as $rows) {?>
+	      <tr>
+	        <td><?=$rows->name;?></td>
+	        <td></td>
+	        <td></td>
+	      </tr>
+<?php }?>
+	    </tbody>
+	 </table>
 
-		} else {
+	<?php	} else {
 			echo "No Data Found";
 		}
 
