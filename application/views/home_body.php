@@ -18,7 +18,7 @@
           </select>
       </div>
 
-     <div class="col-sm-4">
+     <div class="col-sm-3">
        <label class="control-label " for="email">Language Code</label>
         <select name="lang" class="selectpicker" data-show-subtext="true" data-live-search="true">
             <option value="">Select</option>
