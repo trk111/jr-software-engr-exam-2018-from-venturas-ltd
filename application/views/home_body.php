@@ -9,7 +9,7 @@
 <form method="post" enctype="multipart/form-data">
       <div class="col-sm-4 col-sm-offset-2">
        <label class="control-label " for="email">Programming Language</label>
-        <select name="prog_lang" class="selectpicker" data-show-subtext="true" data-live-search="true">
+        <select name="prog_lang" id="prog_lang" class="selectpicker" data-show-subtext="true" data-live-search="true">
             <option value="">Select</option>
             <?php foreach ($pl->result() as $prog_lang) {?>
 
@@ -20,7 +20,7 @@
 
      <div class="col-sm-3">
        <label class="control-label " for="email">Language Code</label>
-        <select name="lang" class="selectpicker" data-show-subtext="true" data-live-search="true">
+        <select name="lang" id="lang" class="selectpicker" data-show-subtext="true" data-live-search="true">
             <option value="">Select</option>
              <?php foreach ($languages->result() as $language) {?>
 
@@ -50,8 +50,8 @@
     {
        var prog_lang = $("#prog_lang").val();
        var lang = $("#lang").val();
-
-       if(prog_lang == '' || lang == '')
+       
+       if(prog_lang == '' && lang == '')
        {
        		alert('Select One Field at least');
        }

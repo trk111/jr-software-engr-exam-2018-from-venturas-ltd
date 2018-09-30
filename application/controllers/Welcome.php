@@ -81,36 +81,162 @@ class Welcome extends CI_Controller {
 		$this->load->view('welcome_message', $output);
 	}
 
-	function search_result() {
+	function search_result() 
+	{
 		$prog_lang = $this->input->post('prog_lang');
 		$lang = $this->input->post('lang');
+		
+		if($prog_lang != '' && $lang == '')
+		{
+			$result = $this->welcome_model->search_result_pl($prog_lang);
+			$this->show_data($result);
+		}
+		
+		if($prog_lang == '' && $lang != '')
+		{
+			$result = $this->welcome_model->search_result_l($lang);
+			$this->show_data($result);
+		}
+		
+		if($prog_lang != '' && $lang != '')
+		{
+			
+			$result_pl = $this->welcome_model->search_result_pl($prog_lang);
+			
+			if($result_pl != '')
+			{
+				?>
+					<table class="table table-striped">
+					    <thead>
+					      <tr>
+					        <th>Email</th>
+					        <th>Programming Languages</th>
+					        <th>Language</th>
+					      </tr>
+					    </thead>
+					    <tbody>
+				<?php
+				foreach($result_pl->result() as $pl_developer)
+				{
+					$result = $this->welcome_model->check_pl_developer_language($pl_developer->d_id,$lang);
+					
+					$this->show_data_dual($result);	
+				}
+				?>
+				</tbody>
+				</table>
+				<?php
+			}
+			
+		}
+		
 
-		$result = $this->welcome_model->search_result($prog_lang, $lang);
+	}
+	
+	function show_data($result)
+	{
+		if ($result != '') { ?>
+			<table class="table table-striped">
+			    <thead>
+			      <tr>
+			        <th>Email</th>
+			        <th>Programming Languages</th>
+			        <th>Language</th>
+			      </tr>
+			    </thead>
+			    <tbody>
+		<?php foreach ($result->result() as $rows) {?>
+			      <tr>
+			        <td><?=$rows->email;?></td>
+			        <td>
+			        	<?php
+			        		$developers_pl = $this->welcome_model->get_developers_pl($rows->d_id);
+							$i=0;
+							foreach($developers_pl as $row)
+							{
+								if($i!=0)
+								{
+									echo ',';
+								}
+								
+								echo $row->name;
+								
+								$i++;
+							}
+			        	?>
+			        </td>
+			        <td>
+			        	<?php
+			        		$developers_l = $this->welcome_model->get_developers_l($rows->d_id);
+							$j=0;
+							foreach($developers_l as $row)
+							{
+								if($j!=0)
+								{
+									echo ',';
+								}
+								
+								echo $row->code;
+								
+								$j++;	
+							}
+			        	?>
+			        </td>
+			      </tr>
+		<?php }?>
+			    </tbody>
+			 </table>
 
-		if ($result != '') {?>
-	<table class="table table-striped">
-	    <thead>
-	      <tr>
-	        <th>Email</th>
-	        <th>Programming Languages</th>
-	        <th>Language</th>
-	      </tr>
-	    </thead>
-	    <tbody>
-<?php foreach ($result as $rows) {?>
-	      <tr>
-	        <td><?=$rows->name;?></td>
-	        <td></td>
-	        <td></td>
-	      </tr>
-<?php }?>
-	    </tbody>
-	 </table>
-
-	<?php	} else {
+	<?php } else {
 			echo "No Data Found";
 		}
+	}
 
+	function show_data_dual($result)
+	{
+		if ($result != '') { ?>
+	
+<?php foreach ($result->result() as $rows) {?>
+	      <tr>
+	        <td><?=$rows->email;?></td>
+	        <td>
+	        	<?php
+	        		$developers_pl = $this->welcome_model->get_developers_pl($rows->d_id);
+					$i=0;
+					foreach($developers_pl as $row)
+					{
+						if($i!=0)
+						{
+							echo ',';
+						}
+						
+						echo $row->name;
+						
+						$i++;
+					}
+	        	?>
+	        </td>
+	        <td>
+	        	<?php
+	        		$developers_l = $this->welcome_model->get_developers_l($rows->d_id);
+					$j=0;
+					foreach($developers_l as $row)
+					{
+						if($j!=0)
+						{
+							echo ',';
+						}
+						
+						echo $row->code;
+						
+						$j++;	
+					}
+	        	?>
+	        </td>
+	      </tr>
+	<?php } } else {
+			
+		}
 	}
 
 }
