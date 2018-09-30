@@ -143,5 +143,24 @@ Class Welcome_model extends CI_Model {
 		
 		
 	}
+	
+	function developer_all_data()
+	{
+	  $this->db->select('developers.email,languages.code as lang_code,programming_languages.name as pl_name,data_pl.*,data.*');
+	  
+	  $this->db->from('developers');
+	  $this->db->from('languages');
+	  $this->db->from('programming_languages');
+	  $this->db->from('data');
+	  $this->db->from('data_pl');
+	
+	  $this->db->where('developers.id = data.developer');
+	  $this->db->where('developers.id = data_pl.developer');
+	  
+	  $this->db->where('languages.id = data.language');
+	  $this->db->where('programming_languages.id = data_pl.programming_language');
+	  	  		  
+	  return $this->db->get()->result();
+	}
 
 }

@@ -58,3 +58,5 @@ $route['add_developer'] = 'welcome/add_developer';
 $route['add_pl'] = 'welcome/add_pl';
 $route['add_language'] = 'welcome/add_language';
 $route['assign_language'] = 'welcome/assign_language';
+
+$route['api'] = 'welcome/api';
