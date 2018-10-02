@@ -241,18 +241,11 @@ class Welcome extends CI_Controller {
 	
 	public function api()
 	{
-		$method = $_SERVER['REQUEST_METHOD'];
+		$sql = $this->db->query('select * from developers')->result();
 		
-		if($method != 'GET')
-		{
-			json_output(400,array('status' => 400,'message' => 'Bad request.'));
-		} 
-		else
-		{
-	    	$resp = $this->welcome_model->developer_all_data();
-			
-			json_output($response['data'],$resp);
-		}
+		$data = json_encode($sql);	
+		
+		echo $data;
 	}
 
 
